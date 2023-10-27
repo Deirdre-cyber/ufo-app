@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script
+      src="//cdn.jsdelivr.net/npm/pouchdb@8.0.1/dist/pouchdb.min.js">
+    </script>
+    <script>
+      var $pouchDB = new PouchDB('my-ufo-db');
+      if ($pouchDB) {
+        console.log("Connection with PouchDB established successfully");
+        console.log($pouchDB);
+      } else {
+        console.warn("Something went wrong")
+      }
+    </script>
+    <!-- The below script is your vuejs script, it is a build file -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

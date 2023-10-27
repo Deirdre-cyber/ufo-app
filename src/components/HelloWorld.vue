@@ -1,49 +1,58 @@
 <template>
   <div class="hello">
+    <nav class="navbar">
+      <div class="navbar-items">
+        <router-link to="/sightings">All Sightings</router-link>
+        <router-link to="/sightings/new">Add Sighting</router-link>
+      </div>
+    </nav>
+
     <h1>{{ msg }}</h1>
-    <h3>Welcome to the Alien Sightings</h3>
-    <ul>
-      <li><router-link to="/sightings">Sightings</router-link></li>
-      <li><router-link to="/sightings/new">New Sighting</router-link></li>
-    </ul>
-    <router-view/>
+    <div class="intro">
+      <p>{{ intro }}</p>
+      <p>{{ intro_two }}</p>
+      <p>{{ intro_three }}</p>
+    </div>
+    <router-view />
   </div>
 </template>
 
 <script>
+import PouchDB from 'pouchdb';
+
+var db = new PouchDB('my-ufo-sightings');
+db.sync('http://admin:mtu12345@localhost:5984/ufo-sightings', {
+  live: true,
+  retry: true
+}).on('change', function (change) {
+  console.log('Change:', change);
+}).on('paused', function (info) {
+  console.log('Info:', info);
+}).on('active', function (info) {
+  console.log('Info:', info);
+}).on('error', function (err) {
+  console.error('Error:', err);
+});
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: {
       type: String,
-      default: "Welcome"
+      default: "Welcome to our UFO Sighting Records database!"
+    },
+    intro: {
+      type: String,
+      default: "If you've ever gazed up at the night sky in wonder and fascination, you're in the right place!"
+    },
+    intro_two: {
+      type: String,
+      default: "Our platform is a comprehensive repository of mysterious encounters, unexplained phenomena, and eyewitness accounts of unidentified flying objects."
+    },
+    intro_three: {
+      type: String,
+      default: "Whether you're a believer, a skeptic, or simply curious, our collection of UFO sightings will take you on a journey through the uncharted realms of the unexplained. "
     }
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-    display: inline-block;
-    margin: 0 10px;
-    padding: 0.5rem;
-    border: 2px solid black;
-    border-radius: 0.5rem;
-    background-color: rgb(17, 132, 11);
-  }
-  a {
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #e5f1ec;
-    text-decoration: none;
-  }
-</style>
